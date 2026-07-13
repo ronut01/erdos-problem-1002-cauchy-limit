@@ -4,23 +4,23 @@ This repository contains a proposed resolution of [Erdos Problem #1002](https://
 
 For
 
-\[
+$$
 S_n(\alpha)=\sum_{k=1}^n\left(\frac12-\{k\alpha\}\right),
-\]
+$$
 
-the manuscript proves, for uniformly distributed \(\alpha\in(0,1)\),
+the manuscript proves, for uniformly distributed $\alpha\in(0,1)$,
 
-\[
+$$
 \frac{S_n(\alpha)}{\log n}
 \Longrightarrow
 \operatorname{Cauchy}\left(0,\frac1{2\pi}\right).
-\]
+$$
 
 The limiting distribution function is therefore
 
-\[
+$$
 g(c)=\frac12+\frac1\pi\arctan(2\pi c).
-\]
+$$
 
 ## Files
 
