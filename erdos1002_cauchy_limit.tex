@@ -60,8 +60,14 @@ the question is whether $S_n(\alpha)/\log n$, regarded as a random variable on
 the Lebesgue probability space $(0,1)$, has a limiting law.  This is
 Erd\H{o}s Problem~\#1002, originating in \cite{Er64b}; see also
 \cite{Bloom1002}.  Kesten's two-parameter result \cite{Ke60} provides the
-closely related averaged-origin case.  The answer to the fixed-origin problem
-is as follows.
+closely related averaged-origin case; Borda \cite{Borda25} computed the
+normalizing constant in that law for the sawtooth observable.  This is an
+annealed spatial law, averaging both the rotation number and the starting
+point.  Dolgopyat and Sarig \cite{DS20} proved an annealed temporal Cauchy
+law in which the rotation number and the time are randomized.  Neither
+ensemble is the one considered here: the time $n$ and the starting point are
+fixed, and only $\alpha$ is averaged.  The answer to this fixed-origin,
+fixed-time problem is as follows.
 
 \begin{theorem}\label{thm:main}
 As $n\to\infty$,
@@ -491,7 +497,11 @@ $F_1,\ldots,F_r\in\mathcal P_D(L)$, then
 \end{proposition}
 
 \begin{proof}
-Expand in Fourier modes $v_1,\ldots,v_r$.  If every $v_\ell=0$, the
+Expand both in the digit values and in the Fourier modes
+$v_1,\ldots,v_r$, and pull out the scalar coefficient of each
+digit--Fourier term.  The remaining amplitude is a product of cylinder
+indicators and hence has modulus at most one; the total $\ell^1$-mass of the
+extracted coefficients is at most $L^{Dr}$.  If every $v_\ell=0$, the
 integrand is a product of digit functions.  Repeated use of
 Lemma~\ref{lem:conditional-mixing} and
 \eqref{eq:good-tuple-separation} factors its mean with error
@@ -726,11 +736,15 @@ and dominated convergence gives
  =\frac1{12\log2}.
 \]
 
+\begin{equation}\label{eq:Xi-def}
+ \Xi_n:=\sum_{j\in\mathcal J_n}\delta_{(-1)^jZ_{n,j}/L}.
+\end{equation}
+
 \begin{proposition}[Poisson point process]\label{prop:PPP}
 In the space of Radon point measures on $\R\setminus\{0\}$ equipped with
 the vague topology,
 \begin{equation}\label{eq:PPP}
- \sum_{j\in\mathcal J_n}\delta_{(-1)^jZ_{n,j}/L}
+ \Xi_n
  \ \Longrightarrow\
  \operatorname{PRM}(\Lambda),
  \qquad
@@ -821,11 +835,20 @@ conditional tail bound gives, for every $r\ge1$,
 \]
 where $(x)_r=x(x-1)\cdots(x-r+1)$.  In particular all local factorial
 moments are uniformly bounded, while the first moment supplies local
-tightness.  The
-factorial-moment criterion for point processes
-\cite[Chap.~4]{Kallenberg17}, applied on an exhausting sequence of compact
-continuity sets, identifies every subsequential limit as the Poisson random
-measure with intensity $\Lambda$.
+tightness.  Moreover, for $0\le u\le1$,
+\[
+ \sup_n\E(1+u)^{N_n(K)}
+ =\sup_n\sum_{r\ge0}\frac{u^r}{r!}\E(N_n(K))_r
+ \le \exp(C_Ku).
+\]
+Thus the local counts have uniformly bounded exponential moments.  On
+finitely many disjoint compact continuity sets, the preceding calculation
+gives convergence of all mixed factorial moments to those of independent
+Poisson variables, and the exponential bound makes those moments
+distribution determining.  Local tightness and an exhaustion by compact
+continuity sets now identify every subsequential limit as the Poisson random
+measure with intensity $\Lambda$; this is the standard factorial-moment
+criterion \cite[Chap.~4]{Kallenberg17}.
 \end{proof}
 
 We next control the compensated small jumps.  Choose
@@ -875,10 +898,13 @@ $|U_{n,j}^{(\varepsilon)}|\le2\varepsilon L$,
 \]
 After centering, $\|X-\E X\|_2\le2\|X\|_2$; hence, after division by $L$,
 Minkowski's inequality shows that the sum of these tails is
-$O(\varepsilon L^{1-D/2})=o(1)$ if $D>2$.  On $a\le A_L$, the
-derivative of the truncated summand is polynomial in $L$; Jackson
-approximation with uniform error $L^{-A-4}$ and polynomial degree and
-coefficient norm applies as in the proof of Proposition~\ref{prop:PPP}.
+$O(\varepsilon L^{1-D/2})=o(1)$ if $D>2$.  The map
+$z\mapsto z\chi(z/(\varepsilon L))$ has uniformly bounded Lipschitz norm on
+$[0,\infty)$, and $W$ is $1/2$-Lipschitz on $\T$.  Hence, on $a\le A_L$,
+the truncated summand has Lipschitz norm at most $Ca\le CL^D$, uniformly in
+$0<\varepsilon<1$.  Jackson approximation for Lipschitz functions, with
+uniform error $L^{-A-4}$ and polynomial degree and coefficient norm, applies
+as in the proof of Proposition~\ref{prop:PPP}.
 Centering doubles the approximation error but does not change its order.
 Proposition~\ref{prop:marked-factorization},
 with $A$ chosen so large that $L^2O_A(L^{-A})=o(1)$, makes the sum of all
@@ -939,6 +965,8 @@ $b_n^{(0)}:=b_{n,\varepsilon_n}$ for which
 
 Let $(\widehat\Omega,\widehat\nu,\sigma)$ be the two-sided natural extension
 of the Gauss system and write $x(\omega)=[0;a_1(\omega),a_2(\omega),\ldots]$.
+Whenever order, ceiling, or fractional part is used for a torus coordinate,
+we identify $\T$ with its canonical representatives in $[0,1)$.
 Define the torus cocycle
 \begin{equation}\label{eq:S-cocycle}
  \mathcal S(\omega,r,s)=
@@ -1007,9 +1035,32 @@ correlation vanishes unless
 \begin{equation}\label{eq:character-resonance}
  k+(A_{a_m}\cdots A_{a_1})^{\mathrm T}\ell=0.
 \end{equation}
-After alternating signs are absorbed, either coordinate of the successive
-integer vectors obeys the recurrence in
-Lemma~\ref{lem:endpoint-recurrence}.  Thus, for fixed nonzero $k,\ell$, the resonance relation is
+Indeed, reverse the matrix order forced by the transpose and, for
+$0\le i\le m$, put
+\[
+ w_i=A_{a_{m-i+1}}^{\mathrm T}\cdots A_{a_m}^{\mathrm T}\ell
+     =(\xi_i,\eta_i)^{\mathrm T},
+ \qquad w_0=\ell.
+\]
+Since $A_a^{\mathrm T}=A_a$, for $0\le i<m$,
+\[
+ w_{i+1}=A_{a_{m-i}}^{\mathrm T}w_i
+          =(\eta_i,\xi_i-a_{m-i}\eta_i)^{\mathrm T}.
+\]
+Thus $\xi_{i+1}=\eta_i$; on defining $\xi_{m+1}:=\eta_m$, we have
+\[
+ \xi_{i+2}=\xi_i-a_{m-i}\xi_{i+1}
+ \qquad(0\le i<m).
+\]
+Consequently $z_i=(-1)^i\xi_i$ satisfies
+$z_{i+2}=a_{m-i}z_{i+1}+z_i$.  Moreover,
+$w_m=(A_{a_m}\cdots A_{a_1})^{\mathrm T}\ell=-k$ under
+\eqref{eq:character-resonance}; hence $(z_0,z_1)$ is, up to signs, the
+coordinate pair of $\ell$, and $(z_m,z_{m+1})$ is the coordinate pair of
+$k$.  Both endpoint pairs are therefore bounded in terms of the fixed
+vectors $k$ and $\ell$, so
+Lemma~\ref{lem:endpoint-recurrence} applies.  Thus, for fixed nonzero
+$k,\ell$, the resonance relation is
 impossible for all sufficiently large $m$.  The zero modes reduce to mixing
 of the Gauss natural extension.
 Density of cylinder functions times characters in $L^2$ completes the proof.
@@ -1048,9 +1099,13 @@ $\mu_R$-measure zero, then
 \end{lemma}
 
 \begin{proof}
-First take a finite digit-cylinder function times a torus character.  Partition
-it into its finitely many complete depth-$(j+R)$ block cylinders.  By
-\eqref{eq:block-character-reduction}, on each such cylinder the coefficients
+First take a finite digit-cylinder function times a torus character, and let
+$d$ be the largest initial digit depth on which the chosen test depends.  For
+the raw digit block in \eqref{eq:actual-window}, $d=j+R+1$; after replacing
+complete quotients by a fixed number $M$ of future digits below, one may have
+$d\le j+R+M$.  Partition into the countably many complete depth-$d$
+cylinders, grouped by the finitely many local block words occurring in the
+test.  By \eqref{eq:block-character-reduction}, on each such cylinder the coefficients
 $A_w,B_w$, the integer $Q_j=A_wq_j-B_wq_{j-1}$, and the whole block amplitude
 are fixed.  If $A_w=B_w=0$, uniform Gauss mixing gives the stationary mean.
 Otherwise Lemma~\ref{lem:anti}, with $\eta=\e^{-cH}$, removes, after summing
@@ -1059,16 +1114,17 @@ $O(\e^{-cH})$ on which local cancellation may occur.  On the complement,
 $|Q_j|\ge\e^{-cH}q_j$.
 
 Put $t=\lfloor(m_n+j)/2-40H\rfloor$.  Because
-$j\in\mathcal J_n$, one has $t>j+R$.  Retain the coarser complete depth-$j$
+$j\in\mathcal J_n$ and $d-j=O_{R,M}(1)$ for each fixed cylinder test, one has
+$t>d$ for all sufficiently large $n$, uniformly in $j$.  Retain the coarser complete depth-$j$
 cylinder union on which $q_j\ge\e^{\lambda j-\delta H}$ and, below every
-retained depth-$(j+R)$ block prefix, the complete depth-$t$ descendants on
+retained depth-$d$ prefix, the complete depth-$t$ descendants on
 which $q_t\le\e^{\lambda t+\delta H}$.  The
 discarded mass is $O(\e^{-cL^{1/2}})$ by
 \eqref{eq:local-q-good}; on every retained descendant,
 \[
  q_t^2\le\e^{-cH}n|Q_j|.
 \]
-Lemma~\ref{lem:descendant}, with prefix depth $j+R$, therefore makes every
+Lemma~\ref{lem:descendant}, with prefix depth $d$, therefore makes every
 nonzero character
 $O(\e^{-cH}+\e^{-cL^{1/2}})$.  This proves the required one-block convergence
 uniformly in $j$.  Finite sums give convergence on the cylinder--character
@@ -1082,7 +1138,8 @@ the test-function error is at most $\omega_G(C_RF_M^{-2})$.  Before invoking
 the finite cylinder--character algebra, restrict all digits used in these
 truncations to $a\le K$.  Lemma~\ref{lem:gauss-estimates}(ii) and a union bound
 make the discarded mass $O_R(M/K)$, uniformly for the actual and stationary
-window laws.  For fixed $M,K$ only finitely many words remain; first let
+window laws.  These truncated tests are covered by the preceding argument
+with $d\le j+R+M$.  For fixed $M,K$ only finitely many words remain; first let
 $n\to\infty$, then $K\to\infty$, and finally $M\to\infty$.
 
 The unital self-conjugate algebra generated by finite digit-cylinder
@@ -1166,7 +1223,8 @@ discontinuities lie on countably many Gauss boundaries and finitely many
 ceiling or fractional-part hypersurfaces, all of stationary measure zero.
 
 By the $L^2$-density established after Lemma~\ref{lem:full-state}, choose
-real-valued cylinder--torus polynomials $P_{R,M}$, of finite radii
+real-valued cylinder--torus polynomials $P_{R,M}$ that are finite real linear
+combinations of the monomials in \eqref{eq:block-monomial}, of finite radii
 $R_M\ge R$ that may grow with $M$, such that
 \begin{equation}\label{eq:remainder-L2-approx}
  \|B^{(R)}-P_{R,M}\|_{L^2(\mu_{R_M})}
@@ -1312,6 +1370,17 @@ World Scientific, Singapore, 2000.
 T.~F. Bloom,
 \emph{Erd\H{o}s Problem \#1002},
 \url{https://www.erdosproblems.com/1002}, accessed July 13, 2026.
+
+\bibitem{Borda25}
+B.~Borda,
+\emph{Equidistribution of continued fraction convergents in
+$\operatorname{SL}(2,\mathbb Z_m)$ with an application to local discrepancy},
+J. Mod. Dyn. 21 (2025), 327--359.
+
+\bibitem{DS20}
+D.~Dolgopyat and O.~Sarig,
+\emph{Quenched and annealed temporal limit theorems for circle rotations},
+Ast\'erisque 415 (2020), 59--85.
 
 \bibitem{Er64b}
 P. Erd\H{o}s,
