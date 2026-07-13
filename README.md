@@ -13,7 +13,7 @@ the manuscript proves, for uniformly distributed $\alpha\in(0,1)$,
 $$
 \frac{S_n(\alpha)}{\log n}
 \Longrightarrow
-\operatorname{Cauchy}\left(0,\frac1{2\pi}\right).
+\mathrm{Cauchy}\left(0,\frac1{2\pi}\right).
 $$
 
 The limiting distribution function is therefore
