@@ -28,6 +28,7 @@
 \newcommand{\e}{\mathrm e}
 
 \title{A Cauchy Limit for a Sawtooth Sum}
+\author{Sangyoon Kwon}
 \date{}
 \subjclass[2020]{11K38, 11A55, 37A50, 60F05}
 \keywords{continued fractions, discrepancy sums, Cauchy law, stable limits,
@@ -40,15 +41,6 @@ For $S_n(\alpha)=\sum_{k\le n}(1/2-\{k\alpha\})$, with $\alpha$ uniformly distri
 
 \maketitle
 
-\begin{center}
-\textbf{AI-use disclosure.} The proposed answer was first obtained in a
-one-shot ChatGPT response using OpenAI GPT-5.6-sol Pro.  The proof was
-subsequently developed and gaps were addressed through iterative prompting of
-that model.
-OpenAI Codex (GPT-5.6-sol) was used to assemble, edit, compile, and perform
-automated consistency audits of this manuscript.
-\end{center}
-
 \section{Introduction and statement of the result}
 
 Write $\{x\}=x-\lfloor x\rfloor$ and let logarithms be natural.  For
@@ -59,15 +51,21 @@ Write $\{x\}=x-\lfloor x\rfloor$ and let logarithms be natural.  For
 the question is whether $S_n(\alpha)/\log n$, regarded as a random variable on
 the Lebesgue probability space $(0,1)$, has a limiting law.  This is
 Erd\H{o}s Problem~\#1002, originating in \cite{Er64b}; see also
-\cite{Bloom1002}.  Kesten's two-parameter result \cite{Ke60} provides the
+\cite{Bloom1002}.  Erd\H{o}s used the opposite sign convention; since
+$\alpha\mapsto1-\alpha$ preserves Lebesgue measure and reverses the
+sum for irrational $\alpha$, the two distributional formulations are
+equivalent.  Kesten's two-parameter result \cite{Ke60} provides the
 closely related averaged-origin case; Borda \cite{Borda25} computed the
 normalizing constant in that law for the sawtooth observable.  This is an
 annealed spatial law, averaging both the rotation number and the starting
 point.  Dolgopyat and Sarig \cite{DS20} proved an annealed temporal Cauchy
 law in which the rotation number and the time are randomized.  Neither
 ensemble is the one considered here: the time $n$ and the starting point are
-fixed, and only $\alpha$ is averaged.  The answer to this fixed-origin,
-fixed-time problem is as follows.
+fixed, and only $\alpha$ is averaged.  A related Cauchy limit phenomenon
+occurs in Vardi's theorem for Dedekind sums \cite{Vardi93}, although the
+observable and averaging ensemble are different from those considered here.
+The answer to this
+fixed-origin, fixed-time problem is as follows.
 
 \begin{theorem}\label{thm:main}
 As $n\to\infty$,
@@ -235,7 +233,7 @@ By \eqref{eq:u-carry} and \eqref{eq:E-bound},
 Since $x_j^{-1}=a_{j+1}+x_{j+1}$,
 \[
  \Phi(x_j,u_j)-a_{j+1}W(\theta_j)
- =a_{j+1}\{W(u_j)-W(\theta_j)\}
+ =a_{j+1}\bigl(W(u_j)-W(\theta_j)\bigr)
   +x_{j+1}W(u_j)-\frac{u_j}{2}.
 \]
 The first term has absolute value at most
@@ -250,11 +248,13 @@ The Gauss invariant probability measure is
  d\nu(x)=h(x)\,dx,
  \qquad h(x)=\frac1{\log2\,(1+x)}.
 \end{equation}
-Its Lyapunov exponent is
+The constant
 \begin{equation}\label{eq:lambda}
  \lambda=\int_0^1-\log x\,d\nu(x)
- =\frac{\pi^2}{12\log2}.
+ =\frac{\pi^2}{12\log2}
 \end{equation}
+is the L\'evy constant.  Since $\log|T'(x)|=-2\log x$, the Lyapunov
+exponent of the Gauss map is $2\lambda$.
 
 For a word $w=(a_1,\ldots,a_r)$ let $I_w$ be the corresponding
 continued-fraction cylinder.  If $p_r/q_r$ is its last convergent, the inverse
@@ -360,9 +360,15 @@ The constants are uniform in the cylinder $I_w$.
 
 \begin{proof}
 Conditioned on $I_w$, the density of $T^d\alpha$ is $\rho_w$, whose $BV$
-norm is uniformly bounded by \eqref{eq:cylinder-length}.  Apply
-Lemma~\ref{lem:gauss-estimates}(i) across the first gap, multiply by the next
-$BV$ observable, and iterate.  The product inequality
+norm is uniformly bounded by the displayed formula for $\rho_w$ above.  More
+precisely, change of variables by the inverse branch of $I_w$ gives the exact
+cylinder-transfer identity
+\[
+ \E\left(\prod_{i=1}^s g_i(T^{t_i}\alpha)\,\middle|\,I_w\right)
+ =\int_0^1\prod_{i=1}^s g_i(T^{t_i-d}y)\rho_w(y)\,dy.
+\]
+Apply Lemma~\ref{lem:gauss-estimates}(i) across the first gap, multiply by the
+next $BV$ observable, and iterate.  The product inequality
 $\|fg\|_{BV}\le C\|f\|_{BV}\|g\|_{BV}$ and the fixed number $s$ of factors
 give \eqref{eq:conditional-mixing}.
 \end{proof}
@@ -391,36 +397,48 @@ The first ingredient controls local cancellation of the two continuants in a
 torus character.
 
 \begin{lemma}[Shrinking anti-concentration]\label{lem:anti}
-For every fixed $(r,s)\in\Z^2\setminus\{(0,0)\}$, every $j\ge1$, and
-$0<\eta<1/2$,
+For every $(r,s)\in\Z^2\setminus\{(0,0)\}$, every $j\ge1$, and every
+$\eta>0$,
 \begin{equation}\label{eq:anti}
  \Pp(|sq_j-rq_{j-1}|<\eta q_j)
- \le C_{r,s}\eta+C_{r,s}\e^{-cj}.
+ \le 4\eta+4F_{j+1}^{-2}
+ \le C\bigl(\eta+\e^{-2(\log\varphi)j}\bigr),
+ \qquad \varphi=(1+\sqrt5)/2.
 \end{equation}
 \end{lemma}
 
 \begin{proof}
-Put $Y_j=q_{j-1}/q_j=[0;a_j,\ldots,a_1]$ and
-$Y_{j,R}=[0;a_j,\ldots,a_{j-R+1}]$.  The contraction of inverse continued
-fractions gives
+Put $Y_j=q_{j-1}/q_j=[0;a_j,\ldots,a_1]$.  For a word
+$w=(a_1,\ldots,a_j)$, let $w^{\rm rev}=(a_j,\ldots,a_1)$.  Symmetry of the
+continuant gives
 \[
- |Y_j-Y_{j,R}|\le C\varphi^{-2R},
- \qquad \varphi=(1+\sqrt5)/2.
+ q_j(w^{\rm rev})=q_j(w),
+ \qquad p_j(w^{\rm rev})=q_{j-1}(w),
+ \qquad q_{j-1}(w^{\rm rev})=p_j(w).
 \]
-The Gauss natural extension has invariant density
+Consequently $Y_j(w)=p_j(w^{\rm rev})/q_j(w^{\rm rev})$, while
+\eqref{eq:cylinder-length} gives the uniform distortion comparison
 \[
- \frac{dx\,dy}{\log2\,(1+xy)^2};
+ \frac{|I_w|}{|I_{w^{\rm rev}}|}
+ =\frac{q_j(w)+p_j(w)}{q_j(w)+q_{j-1}(w)}\le2.
 \]
-its backward marginal is $dy/(\log2(1+y))$.  By
-Lemma~\ref{lem:gauss-estimates}(i), the law of the last $R$ digits under
-Lebesgue measure differs in total variation from its stationary law by
-$O(\rho^{j-R})$.  Hence, for every interval $I\subset(0,1)$,
+The rational $p_j(w^{\rm rev})/q_j(w^{\rm rev})$ is an endpoint of
+$I_{w^{\rm rev}}$, and $q_j\ge F_{j+1}$.  Thus, if $I\subset(0,1)$ is an
+interval and $\delta_j=F_{j+1}^{-2}$, every reversed cylinder contributing to
+$\{Y_j\in I\}$ lies in the $\delta_j$-neighborhood $I^{(\delta_j)}$.  Since
+word reversal is a bijection and the depth-$j$ cylinders are disjoint up to
+endpoints,
 \[
- \Pp(Y_j\in I)\le C(|I|+\varphi^{-2R})+C\rho^{j-R}.
+ \Pp(Y_j\in I)
+ \le2\sum_{w:Y_j(w)\in I}|I_{w^{\rm rev}}|
+ \le2|I^{(\delta_j)}|
+ \le2|I|+4\delta_j.
 \]
-Taking $R=\lfloor j/2\rfloor$ gives $C|I|+C\e^{-cj}$.  If $r\ne0$, the event
-in \eqref{eq:anti} is $|s-rY_j|<\eta$ and is contained in an interval of
-length $2\eta/|r|$.  If $r=0$, it is empty.
+If $r\ne0$, the event in \eqref{eq:anti} is $|s-rY_j|<\eta$ and its possible
+$Y_j$-values lie in an interval of length at most $2\eta/|r|\le2\eta$.
+If $r=0$, then $s\ne0$; the event is empty when $\eta\le|s|$, while otherwise
+its probability is $1\le\eta$.  This proves the first bound uniformly in
+$(r,s)$.  The second follows from $F_{j+1}^{-2}\ll\varphi^{-2j}$.
 \end{proof}
 
 The second ingredient is a complete-cylinder oscillatory estimate.  Its
@@ -440,8 +458,8 @@ Then
        \e^{2\pi i nQ_w\alpha}A(\alpha)\,d\alpha\right|
  \le C\varepsilon.
 \end{equation}
-Conversely, if a depth-$k$ cylinder $J$ satisfies
-$q_k^2\ge\varepsilon^{-1}n|Q|$, then
+Conversely, let $Q\in\Z\setminus\{0\}$.  If a depth-$k$ cylinder $J$
+satisfies $q_k^2\ge\varepsilon^{-1}n|Q|$, then
 \begin{equation}\label{eq:phase-freeze}
  \sup_{\alpha,\alpha'\in J}|nQ(\alpha-\alpha')|
  \le C\varepsilon.
@@ -449,9 +467,10 @@ $q_k^2\ge\varepsilon^{-1}n|Q|$, then
 \end{lemma}
 
 \begin{proof}
-Let $q(w)$ be the last denominator of $w$.  If $(Q,Q')$ is the denominator
-pair of a continuation, the final denominator is
-$q_k=q(w)Q+q'(w)Q'\ge q(w)Q$.  The number of descendants with
+Let $q(w)$ and $q_-(w)$ be the last two denominators of the prefix $w$.
+If $(\ell,\ell')$ is the denominator pair of a continuation, the final
+denominator is
+$q_k=q(w)\ell+q_-(w)\ell'\ge q(w)\ell$.  The number of descendants with
 $q_k\le R_w$ is therefore $O(R_w^2/q(w)^2)$.  On each complete descendant
 cylinder $J$,
 \[
@@ -502,7 +521,15 @@ $v_1,\ldots,v_r$, and pull out the scalar coefficient of each
 digit--Fourier term.  The remaining amplitude is a product of cylinder
 indicators and hence has modulus at most one; the total $\ell^1$-mass of the
 extracted coefficients is at most $L^{Dr}$.  If every $v_\ell=0$, the
-integrand is a product of digit functions.  Repeated use of
+integrand is a product of digit functions.  For each such factor,
+\[
+ g_\ell(x)=\sum_a c_\ell(a,0)\ind_{\{a_1(x)=a\}},
+ \qquad
+ \Var(g_\ell)\le2\sum_a|c_\ell(a,0)|\le2L^D.
+\]
+This variation estimate comes from the coefficient $\ell^1$ bound in
+\eqref{eq:one-time-poly}, and in particular $\|g_\ell\|_{BV}\ll L^D$; merely
+counting its jumps would not give the stated bound.  Repeated use of
 Lemma~\ref{lem:conditional-mixing} and
 \eqref{eq:good-tuple-separation} factors its mean with error
 $L^{O_{r,D}(1)}\rho^{200H}=O_A(L^{-A})$.
@@ -576,18 +603,22 @@ zero terms give the product on the right of
 
 We also need fixed-radius blocks.  The recurrence
 \eqref{eq:theta-cocycle} implies by induction that every torus character in
-a radius-$R$ window can be reduced, on its digit cylinder, to a character of
-the two central coordinates.  More precisely, for fixed integers
-$c_{-R},\ldots,c_R$ there are integers $A_w,B_w$, depending only on the
-radius-$R$ digit word $w$, such that
+the full torus window can be reduced, on its digit cylinder, to a character
+of the two central coordinates.  More precisely, fix $R\ge0$ and integers
+$c_{-R-1},\ldots,c_R$, and put
+\[
+ w_{j,R}=(a_{j-R+1},\ldots,a_{j+R}),
+\]
+with the word understood as empty when $R=0$.  There are integers
+$A_{w_{j,R}},B_{w_{j,R}}$, depending only on this word, such that
 \begin{equation}\label{eq:block-character-reduction}
- \sum_{|t|\le R}c_t\theta_{j+t}
- \equiv A_w\theta_j+B_w\theta_{j-1}\pmod1.
+ \sum_{t=-R-1}^{R}c_t\theta_{j+t}
+ \equiv A_{w_{j,R}}\theta_j+B_{w_{j,R}}\theta_{j-1}\pmod1.
 \end{equation}
-This follows by repeatedly substituting
-$\theta_{i+1}=\theta_{i-1}-a_{i+1}\theta_i$.  On each fixed finite
-collection of radius-$R$ cylinder words, $A_w,B_w$ range over a finite set.
-In view of
+Indeed, the forward substitutions up to $\theta_{j+R}$ use precisely
+$a_{j+1},\ldots,a_{j+R}$, while the backward substitutions down to
+$\theta_{j-R-1}$ use precisely $a_j,\ldots,a_{j-R+1}$.  On each fixed finite
+collection of these words, $A_w,B_w$ range over a finite set.  In view of
 \eqref{eq:theta}, the resulting phase is
 $n(-1)^j(A_wq_j-B_wq_{j-1})\alpha$.
 
@@ -609,51 +640,72 @@ $j<k$ in $\mathcal J_n$ satisfy
 \begin{equation}\label{eq:two-block}
  \left|\int_0^1U_jV_k\,d\alpha
  -\int U\,d\widehat\mu_0\int V\,d\widehat\mu_0\right|
- \le C_{U,V}\bigl(\e^{-cL^{1/2}}+\e^{-cH}+\rho^{cH}\bigr),
+ \le C_{U,V}\bigl(\e^{-c_{\rm ld}L^{1/2}}
+                    +\e^{-c_{\rm osc}H}
+                    +\rho^{c_{\rm mix}H}\bigr),
 \end{equation}
-where $\widehat\mu_0$ is the stationary Gauss natural-extension measure
-times Haar measure on $\T^2$.
+where $c_{\rm ld},c_{\rm osc},c_{\rm mix}>0$ may depend on $U,V$, and
+$\widehat\mu_0$ is the stationary Gauss natural-extension measure times
+Haar measure on $\T^2$.
 \end{proposition}
 
 \begin{proof}
-It suffices to treat monomials.  If both torus modes vanish, ordinary
-two-sided Gauss mixing proves \eqref{eq:two-block} unless the blocks overlap;
-there are $O(LH)$ overlapping or $H$-near pairs.
+It suffices to treat monomials; let $R$ be the maximum of their two radii.
+If both torus modes vanish, ordinary
+two-sided Gauss mixing proves \eqref{eq:two-block} unless the blocks overlap
+or are separated by only $O(H)$ positions; these exceptional pairs number
+$O(LH)$.
 
-Assume the later mode $(r_2,s_2)$ is nonzero.  By
-Lemma~\ref{lem:anti}, outside a complete depth-$k$ cylinder union of mass
-$O(\e^{-cH})$,
+Choose $\kappa,\delta>0$ so that
 \[
- |Q_k(r_2,s_2)|\ge \e^{-cH}q_k.
+ \kappa+3\delta<80\lambda,
+ \qquad \gamma:=80\lambda-\kappa-3\delta>0.
 \]
-If $k-j\ge CH$, Fibonacci growth makes the later frequency dominate the
-earlier one; after increasing $C=C(U,V)$,
+Here $\kappa$ is used only for anti-concentration and $\delta$ only for the
+denominator windows.  Put $c_{\rm anti}=2\log\varphi$, as supplied uniformly
+by Lemma~\ref{lem:anti}, and write $c_{\rm ld}>0$
+for the constant supplied by \eqref{eq:local-q-good} for this $\delta$.
+
+Assume first that the later mode $(r_2,s_2)$ is nonzero.  Apply
+Lemma~\ref{lem:anti} with $\eta=\e^{-\kappa H}$.  Since $k\ge200H$, outside a
+complete depth-$k$ cylinder union of mass
+\[
+ O(\e^{-\kappa H}+\e^{-200c_{\rm anti}H})
+ =O(\e^{-c_{\rm ac}H}),
+ \qquad c_{\rm ac}:=\min(\kappa,200c_{\rm anti}),
+\]
+one has $|Q_k(r_2,s_2)|\ge\e^{-\kappa H}q_k$.  If
+$k-j\ge C_{U,V,\kappa}H$, Fibonacci growth makes the earlier frequency at
+most half this quantity, and hence
 \[
  |Q|:=|(-1)^jQ_j(r_1,s_1)+(-1)^kQ_k(r_2,s_2)|
- \ge\tfrac12\e^{-cH}q_k.
+ \ge\tfrac12\e^{-\kappa H}q_k.
 \]
-On each depth-$(k+R)$ cylinder, the integer $Q$ and the complete amplitude
-are fixed.  Put
+The excluded separations again account for only $O_{U,V}(LH)$ pairs.  On
+each depth-$(k+R)$ cylinder, the integer $Q$ and the complete amplitude are
+fixed.  Put
 \[
  t_-:=\left\lfloor\frac{m_n+k}{2}-40H\right\rfloor.
 \]
 Retain the complete depth-$k$ cylinders on which
 $q_k\ge \e^{\lambda k-\delta H}$ and, below each such cylinder, the complete
 depth-$t_-$ descendants on which
-$q_{t_-}\le \e^{\lambda t_-+\delta H}$.  By
-\eqref{eq:local-q-good}, the discarded union has mass
-$O(\e^{-cL^{1/2}})$.  Since
-$2\lambda t_-=L+\lambda k-80\lambda H+O(1)$, every retained descendant
-satisfies
-\[
- q_{t_-}^2\le \e^{-cH}n|Q|.
-\]
-Lemma~\ref{lem:descendant}, with prefix depth $k+R$ and descendant depth
-$t_-$, bounds the retained integral by $O(\e^{-cH})$.  The summation is by
-complete prefix-cylinder mass, so no cylinder-count factor is lost.  Adding
-the anti-concentration and denominator-deviation unions gives the right side
-of \eqref{eq:two-block}.  The stationary product is zero because the later
-Haar character is nontrivial.
+$q_{t_-}\le \e^{\lambda t_-+\delta H}$.  The discarded union has mass
+$O(\e^{-c_{\rm ld}L^{1/2}})$.  On every retained descendant,
+\begin{align*}
+ \log\frac{q_{t_-}^2}{n|Q|}
+ &\le 2\lambda t_-+2\delta H
+       -L-\lambda k+(\kappa+\delta)H+O(1)\\
+ &\le-(80\lambda-\kappa-3\delta)H+O(1)
+ =-\gamma H+O(1).
+\end{align*}
+Thus, for all sufficiently large $n$,
+$q_{t_-}^2\le\e^{-\gamma H/2}n|Q|$.  Lemma~\ref{lem:descendant}, with
+$\varepsilon=\e^{-\gamma H/2}$, prefix depth $k+R$, and descendant depth
+$t_-$, bounds the retained integral by $O(\e^{-\gamma H/2})$.  The summation
+is by complete prefix-cylinder mass, so no cylinder-count factor is lost.
+The stationary product is zero because the later Haar character is
+nontrivial.
 
 It remains to suppose that the earlier mode is nonzero and the later mode is
 zero.  Write $Q_j=Q_j(r_1,s_1)$ and
@@ -662,52 +714,65 @@ zero.  Write $Q_j=Q_j(r_1,s_1)$ and
  t_-:=\lfloor t_0-40H\rfloor,
  \qquad t_+:=\lfloor t_0+40H\rfloor.
 \]
-Lemma~\ref{lem:anti} removes a complete depth-$j$ cylinder union of mass
-$O(\e^{-cH})$ and leaves $|Q_j|\ge\e^{-cH}q_j$.  Declare
+Apply Lemma~\ref{lem:anti} with the same
+$\eta=\e^{-\kappa H}$.  Outside a complete depth-$j$ cylinder union of mass
+$O(\e^{-c_{\rm ac}H})$, one has
+$|Q_j|\ge\e^{-\kappa H}q_j$.  Declare
 $|k-t_0|\le100H$ exceptional.  This gives $O(H)$ values of $k$ per $j$,
 hence $O(LH)$ pairs in total.
 
-We also retain throughout the complete depth-$j$ cylinder union on which
+Retain throughout the complete depth-$j$ cylinder union on which
 \[
  \e^{\lambda j-\delta H}\le q_j\le\e^{\lambda j+\delta H}.
 \]
-By \eqref{eq:local-q-good}, its complement has mass
-$O(\e^{-cL^{1/2}})$.  On the retained cylinders,
+Its complement has mass $O(\e^{-c_{\rm ld}L^{1/2}})$, and on the retained
+cylinders
 \[
- \e^{-cH}q_j\le |Q_j|\le C_{r_1,s_1}q_j.
+ \e^{-\kappa H}q_j\le |Q_j|\le C_{r_1,s_1}q_j.
 \]
 
 If $k<t_0-100H$, the whole two-block amplitude is measurable before depth
 $t_-$.  Under the retained depth-$j$ prefixes, keep the complete
-depth-$t_-$ descendants with $q_{t_-}\le\e^{\lambda t_-+\delta H}$.
-The complement has mass
-$O(\e^{-cL^{1/2}})$, while on the retained descendants
+depth-$t_-$ descendants with $q_{t_-}\le\e^{\lambda t_-+\delta H}$.  Their
+complement has mass $O(\e^{-c_{\rm ld}L^{1/2}})$, while the same calculation
+as above gives
 \[
- q_{t_-}^2\le\e^{-cH}n|Q_j|.
+ \log\frac{q_{t_-}^2}{n|Q_j|}\le-\gamma H+O(1).
 \]
-Lemma~\ref{lem:descendant} removes the phase with error $O(\e^{-cH})$.
+Hence Lemma~\ref{lem:descendant}, with
+$\varepsilon=\e^{-\gamma H/2}$, removes the phase with error
+$O(\e^{-\gamma H/2})$.
 
 If $k>t_0+100H$, also retain the complete depth-$t_+$ cylinders satisfying
 $q_{t_+}\ge\e^{\lambda t_+-\delta H}$.  Their complement again has mass
-$O(\e^{-cL^{1/2}})$ and, on every retained cylinder,
+$O(\e^{-c_{\rm ld}L^{1/2}})$.  Using the upper bound
+$|Q_j|\le C_{r_1,s_1}q_j$ gives
 \[
- q_{t_+}^2\ge\e^{cH}n|Q_j|.
+ \log\frac{q_{t_+}^2}{n|Q_j|}
+ \ge(80\lambda-3\delta)H+O(1).
 \]
-Thus \eqref{eq:phase-freeze} makes the earlier phase constant up to
-$O(\e^{-cH})$ on each retained depth-$t_+$ cylinder.  The later zero-mode
-block starts at least $cH$ after $t_+$, so conditional Gauss mixing, applied
-on each cylinder and summed by cylinder mass, replaces that block by its
-stationary mean with error $O(\rho^{cH})$.  Extend this stationary-mean
+Put $\gamma_+:=80\lambda-3\delta>0$.  For all sufficiently large $n$,
+$q_{t_+}^2\ge\e^{\gamma_+H/2}n|Q_j|$, so
+\eqref{eq:phase-freeze}, with $\varepsilon=\e^{-\gamma_+H/2}$, makes the
+earlier phase constant up to $O(\e^{-\gamma_+H/2})$ on each retained
+depth-$t_+$ cylinder.  Since the radii of $U,V$ are fixed, the later
+zero-mode block starts at least $c_{\rm mix}H$ after $t_+$ for some
+$c_{\rm mix}>0$ and all large $n$.  Conditional Gauss mixing, applied on
+each cylinder and summed by cylinder mass, therefore replaces that block by
+its stationary mean with error $O(\rho^{c_{\rm mix}H})$.  Extend this
 replacement to the discarded depth-$t_+$ cylinders and restore them, at cost
-$O(\e^{-cL^{1/2}})$; no future cutoff indicator then remains in the earlier
-integral.  Finally retain the depth-$t_-$ descendants
-as above and apply Lemma~\ref{lem:descendant} to the remaining earlier phase.
+$O(\e^{-c_{\rm ld}L^{1/2}})$; no future cutoff indicator then remains in the
+earlier integral.  Finally retain the depth-$t_-$ descendants as above and
+apply Lemma~\ref{lem:descendant} to the remaining earlier phase.
 
 The stationary product is zero because the earlier Haar character is
-nontrivial.  Combining the complete-cylinder errors proves
-\eqref{eq:two-block}; in particular, the denominator-deviation contribution
-is $O(\e^{-cL^{1/2}})$ rather than being hidden in the anti-concentration
-error.
+nontrivial.  Taking
+\[
+ c_{\rm osc}:=\min(c_{\rm ac},\gamma/2,\gamma_+/2)
+\]
+and combining the complete-cylinder errors proves \eqref{eq:two-block}.
+In particular, the denominator-deviation contribution is kept separate from
+the anti-concentration and oscillatory exponents.
 \end{proof}
 
 
@@ -736,6 +801,7 @@ and dominated convergence gives
  =\frac1{12\log2}.
 \]
 
+Define the marked point process
 \begin{equation}\label{eq:Xi-def}
  \Xi_n:=\sum_{j\in\mathcal J_n}\delta_{(-1)^jZ_{n,j}/L}.
 \end{equation}
@@ -755,6 +821,7 @@ the vague topology,
 \begin{proof}
 We verify factorial moment measures against
 $\varphi_1,\ldots,\varphi_r\in C_c^1(\R\setminus\{0\})$.
+Fix an auxiliary exponent $A_0>0$, to be chosen sufficiently large.
 Writing $X_{n,j}=(-1)^jZ_{n,j}/L$, the relevant ordered factorial sum is
 \begin{equation}\label{eq:ordered-factorial-sum}
  \sum_{\substack{(j_1,\ldots,j_r)\in\mathcal J_n^r\\
@@ -773,15 +840,15 @@ one digit exceeds $L^D$ and all the others exceed $8cL$ is
 For $a\le L^D$, the $C^1$ function
 $f_{a,j}(\theta)=\varphi_\ell((-1)^jaW(\theta)/L)$ satisfies
 $\|f_{a,j}'\|_\infty\le C_\varphi a/L\le C_\varphi L^{D-1}$.
-Jackson's theorem \cite[Chap.~X]{Zygmund59}, with degree
-$M=L^{A+r+D+4}$, gives a trigonometric
-polynomial whose uniform error is $O(L^{-A-r-4})$.  Its coefficient
+Jackson's theorem \cite[Vol.~I, Chap.~III]{Zygmund59}, with degree
+$M=L^{A_0+r+D+4}$, gives a trigonometric
+polynomial whose uniform error is $O(L^{-A_0-r-4})$.  Its coefficient
 $\ell^1$ norm is at most
 $(2M+1)(\|\varphi_\ell\|_\infty+1)$ and hence is polynomial in $L$.
 Increasing the complexity exponent in
 Proposition~\ref{prop:marked-factorization}, we may apply that proposition;
 after summation over $O(L^r)$ tuples, the approximation error is
-$O(L^{-A-4})$.
+$O(L^{-A_0-4})$.
 
 Non-good time tuples are $O_r(L^{r-1}H)$ in number.  On each of them the
 probability that all factors are nonzero is $O_r(L^{-r})$ by
@@ -898,16 +965,18 @@ $|U_{n,j}^{(\varepsilon)}|\le2\varepsilon L$,
 \]
 After centering, $\|X-\E X\|_2\le2\|X\|_2$; hence, after division by $L$,
 Minkowski's inequality shows that the sum of these tails is
-$O(\varepsilon L^{1-D/2})=o(1)$ if $D>2$.  The map
-$z\mapsto z\chi(z/(\varepsilon L))$ has uniformly bounded Lipschitz norm on
+$O(\varepsilon L^{1-D/2})=o(1)$ if $D>2$.  Fix an auxiliary exponent
+$A_0>0$, to be chosen sufficiently large.  The map
+$z\mapsto z\chi(z/(\varepsilon L))$ has a Lipschitz constant bounded
+independently of $\varepsilon$ and $L$ on
 $[0,\infty)$, and $W$ is $1/2$-Lipschitz on $\T$.  Hence, on $a\le A_L$,
 the truncated summand has Lipschitz norm at most $Ca\le CL^D$, uniformly in
 $0<\varepsilon<1$.  Jackson approximation for Lipschitz functions, with
-uniform error $L^{-A-4}$ and polynomial degree and coefficient norm, applies
+uniform error $L^{-A_0-4}$ and polynomial degree and coefficient norm, applies
 as in the proof of Proposition~\ref{prop:PPP}.
 Centering doubles the approximation error but does not change its order.
 Proposition~\ref{prop:marked-factorization},
-with $A$ chosen so large that $L^2O_A(L^{-A})=o(1)$, makes the sum of all
+with $A_0$ chosen so large that $L^2O_{A_0}(L^{-A_0})=o(1)$, makes the sum of all
 remaining covariances $o(L^2)$.  This proves
 \eqref{eq:small-jump-var}.
 \end{proof}
@@ -981,7 +1050,7 @@ $\widehat\mu_0=\widehat\nu\otimes m_{\T^2}$ is invariant.
 
 \begin{lemma}[Endpoint-controlled continuant recurrence]
 \label{lem:endpoint-recurrence}
-Let $a_i\ge1$ and let a nonzero integer sequence satisfy
+Let $a_i\ge1$ and let an integer sequence, not identically zero, satisfy
 \[
  z_{i+2}=a_{i+1}z_{i+1}+z_i\qquad(0\le i<m).
 \]
@@ -1084,8 +1153,16 @@ the product topology, with $\N$ discrete, and define the actual window
        (\theta_{j+t})_{t=-R-1}^{R}\right)\in\mathcal X_R.
 \end{equation}
 The stationary window is defined from the two-sided Gauss--torus system in
-the same way.  Both laws are supported on the corresponding orbit-consistent
-Borel subset of $\mathcal X_R$.
+the same way, and its law is denoted by $\mu_R$.  Both laws are supported on
+the corresponding orbit-consistent Borel subset of $\mathcal X_R$.
+
+For $R'\ge R$, let
+$\pi_{R',R}:\mathcal X_{R'}\to\mathcal X_R$ be the coordinate projection
+that retains the digit and real coordinates with $-R\le t\le R$ and the
+torus coordinates with $-R-1\le t\le R$.  Then
+$(\pi_{R',R})_*\mu_{R'}=\mu_R$, and, whenever both actual windows are
+defined,
+$\pi_{R',R}(\mathcal W_{n,j}^{(R')})=\mathcal W_{n,j}^{(R)}$.
 
 \begin{lemma}[Uniform full-state transfer]\label{lem:full-state}
 Let $\eta_{n,j}^{(R)}$ be the law of \eqref{eq:actual-window} for Lebesgue
@@ -1099,48 +1176,59 @@ $\mu_R$-measure zero, then
 \end{lemma}
 
 \begin{proof}
-First take a finite digit-cylinder function times a torus character, and let
-$d$ be the largest initial digit depth on which the chosen test depends.  For
-the raw digit block in \eqref{eq:actual-window}, $d=j+R+1$; after replacing
-complete quotients by a fixed number $M$ of future digits below, one may have
-$d\le j+R+M$.  Partition into the countably many complete depth-$d$
-cylinders, grouped by the finitely many local block words occurring in the
-test.  By \eqref{eq:block-character-reduction}, on each such cylinder the coefficients
-$A_w,B_w$, the integer $Q_j=A_wq_j-B_wq_{j-1}$, and the whole block amplitude
-are fixed.  If $A_w=B_w=0$, uniform Gauss mixing gives the stationary mean.
-Otherwise Lemma~\ref{lem:anti}, with $\eta=\e^{-cH}$, removes, after summing
-over the finite block collection, a complete cylinder union of mass
-$O(\e^{-cH})$ on which local cancellation may occur.  On the complement,
-$|Q_j|\ge\e^{-cH}q_j$.
+First take a digit-cylinder amplitude supported on finitely many local words,
+times a torus character
+$\exp(2\pi i\sum_{t=-R-1}^{R}c_t\theta_{j+t})$, and let $d$ be the largest
+initial digit depth on which the chosen test depends.  For the raw digit block
+in \eqref{eq:actual-window}, $d=j+R+1$; after replacing complete quotients by
+a fixed number $M$ of future digits below, one may have $d\le j+R+M$.
+Partition into complete depth-$d$ cylinders over the finitely many supported
+local words.  By \eqref{eq:block-character-reduction}, on each such cylinder
+the coefficients $A_w,B_w$, the integer
+$Q_j=A_wq_j-B_wq_{j-1}$, and the whole block amplitude are fixed.  If $A_w=B_w=0$, uniform Gauss mixing gives the stationary mean.
+Otherwise choose $\kappa,\delta>0$ with
+$\kappa+3\delta<80\lambda$ and apply Lemma~\ref{lem:anti} with
+$\eta=\e^{-\kappa H}$.  The bound there is uniform in the nonzero pair
+$(A_w,B_w)$, so after summing over the finitely many words a complete cylinder
+union of mass
+$O(\e^{-\kappa H}+F_{j+1}^{-2})=O(\e^{-cH})$ is removed, and on its complement
+$|Q_j|\ge\e^{-\kappa H}q_j$.
 
 Put $t=\lfloor(m_n+j)/2-40H\rfloor$.  Because
 $j\in\mathcal J_n$ and $d-j=O_{R,M}(1)$ for each fixed cylinder test, one has
-$t>d$ for all sufficiently large $n$, uniformly in $j$.  Retain the coarser complete depth-$j$
-cylinder union on which $q_j\ge\e^{\lambda j-\delta H}$ and, below every
-retained depth-$d$ prefix, the complete depth-$t$ descendants on
-which $q_t\le\e^{\lambda t+\delta H}$.  The
-discarded mass is $O(\e^{-cL^{1/2}})$ by
-\eqref{eq:local-q-good}; on every retained descendant,
+$t>d$ for all sufficiently large $n$, uniformly in $j$.  Retain the coarser
+complete depth-$j$ cylinder union on which
+$q_j\ge\e^{\lambda j-\delta H}$ and, below every retained depth-$d$ prefix,
+the complete depth-$t$ descendants on which
+$q_t\le\e^{\lambda t+\delta H}$.  The discarded mass is
+$O(\e^{-c_\delta L^{1/2}})$ by \eqref{eq:local-q-good}.  On every retained
+descendant,
 \[
- q_t^2\le\e^{-cH}n|Q_j|.
+ \log\frac{q_t^2}{n|Q_j|}
+ \le-(80\lambda-\kappa-3\delta)H+O(1),
 \]
-Lemma~\ref{lem:descendant}, with prefix depth $d$, therefore makes every
-nonzero character
-$O(\e^{-cH}+\e^{-cL^{1/2}})$.  This proves the required one-block convergence
-uniformly in $j$.  Finite sums give convergence on the cylinder--character
-algebra.
+and hence $q_t^2\le\e^{-c'_{R,G}H}n|Q_j|$ for some $c'_{R,G}>0$ and all
+large $n$.  Lemma~\ref{lem:descendant}, with prefix depth $d$, therefore
+makes every nonzero character
+$O(\e^{-c'_{R,G}H}+\e^{-c_\delta L^{1/2}})$.  This proves the required one-block convergence uniformly in $j$ for finite
+sums of cylinder--character tests with finitely supported local digit
+amplitudes.
 
-Continuous functions of the complete quotients are included by replacing,
-simultaneously for every $|t|\le R$, the coordinate
-$x_{j+t}=[0;a_{j+t+1},a_{j+t+2},\ldots]$ by its first $M$ future digits.
-The maximum coordinate error is $O_R(F_M^{-2})$; hence, for continuous $G$,
-the test-function error is at most $\omega_G(C_RF_M^{-2})$.  Before invoking
-the finite cylinder--character algebra, restrict all digits used in these
-truncations to $a\le K$.  Lemma~\ref{lem:gauss-estimates}(ii) and a union bound
-make the discarded mass $O_R(M/K)$, uniformly for the actual and stationary
-window laws.  These truncated tests are covered by the preceding argument
-with $d\le j+R+M$.  For fixed $M,K$ only finitely many words remain; first let
-$n\to\infty$, then $K\to\infty$, and finally $M\to\infty$.
+General finite-window tests are reduced to this class by digit truncation.
+In particular, first restrict the finitely many digits required by
+\eqref{eq:block-character-reduction} and by the digit-cylinder amplitude to
+$a\le K$; Lemma~\ref{lem:gauss-estimates}(ii) and a union bound make the
+omitted mass $O_R(1/K)$, uniformly for the actual and stationary window laws.
+Continuous functions of the complete quotients are then included by
+replacing, simultaneously for every $|t|\le R$, the coordinate
+$x_{j+t}=[0;a_{j+t+1},a_{j+t+2},\ldots]$ by its first $M$ future digits.  The
+maximum coordinate error is $O_R(F_M^{-2})$; hence, for continuous $G$, the
+test-function error is at most $\omega_G(C_RF_M^{-2})$.  Restrict every digit
+appearing in these finite continued fractions to $a\le K$ as well.  The total
+discarded mass is $O_R(M/K)$, uniformly for both window laws.  These truncated
+tests are covered by the preceding argument with $d\le j+R+M$.  For fixed
+$M,K$ only finitely many words remain; first let $n\to\infty$, then
+$K\to\infty$, and finally $M\to\infty$.
 
 The unital self-conjugate algebra generated by finite digit-cylinder
 indicators, continuous functions of the real coordinates, and torus
@@ -1217,34 +1305,132 @@ We now prove the weak law for the remainder in
 
 \begin{proof}
 Let $B_j^{(R)}$ be the bounded remainder obtained by replacing $d_j$ with
-$d_j^{(R)}$.  For fixed $R$, it is a bounded function of a fixed past window,
-the torus coordinates, and the current real complete quotient.  Its
-discontinuities lie on countably many Gauss boundaries and finitely many
-ceiling or fractional-part hypersurfaces, all of stationary measure zero.
+$d_j^{(R)}$.  Choose a bounded Borel function
+$B^{(R)}:\mathcal X_R\to\R$ whose restriction to the orbit-consistent support
+represents this remainder, so that
+$B_j^{(R)}=B^{(R)}(\mathcal W_{n,j}^{(R)})$.  For fixed $R$, this function is
+bounded and $\mu_R$-almost-everywhere continuous: its discontinuities lie on
+countably many Gauss boundaries and finitely many ceiling or fractional-part
+hypersurfaces, all of stationary measure zero.
 
-By the $L^2$-density established after Lemma~\ref{lem:full-state}, choose
-real-valued cylinder--torus polynomials $P_{R,M}$ that are finite real linear
-combinations of the monomials in \eqref{eq:block-monomial}, of finite radii
-$R_M\ge R$ that may grow with $M$, such that
+\medskip
+\noindent\textit{Density bridge.}
+Fix $R$ and $\varepsilon>0$.  The $L^2(\mu_R)$-density established after
+Lemma~\ref{lem:full-state} first gives a finite sum
+\[
+ G(\mathbf a,\mathbf x,\boldsymbol\vartheta)
+ =\sum_{\ell=1}^N D_\ell(\mathbf a)g_\ell(\mathbf x)
+   \exp\!\left(2\pi i\sum_{t=-R-1}^{R}
+                    c_{\ell,t}\vartheta_t\right),
+\]
+where each $D_\ell$ is a finite digit-cylinder function, each $g_\ell$ is
+continuous on $[0,1]^{2R+1}$, and each $c_{\ell,t}$ is an integer, such that
+\[
+ \|B^{(R)}-G\|_{L^2(\mu_R)}<\varepsilon/4.
+\]
+The torus range here is the full range $-R-1\le t\le R$ from
+\eqref{eq:actual-window}.
+
+For an integer $M\ge1$, put $R_M=R+M$ and lift both functions to
+$\mathcal X_{R_M}$ by $\pi_{R_M,R}$.  Since
+$(\pi_{R_M,R})_*\mu_{R_M}=\mu_R$, the first $L^2$ error remains less than
+$\varepsilon/4$ after this lift.  On an orbit-consistent window replace,
+for every $-R\le t\le R$,
+\[
+ x_{j+t}=[0;a_{j+t+1},a_{j+t+2},\ldots]
+ \quad\hbox{by}\quad
+ x_{j+t}^{[M]}=[0;a_{j+t+1},\ldots,a_{j+t+M}].
+\]
+The continued-fraction contraction estimate gives
+$\max_{|t|\le R}|x_{j+t}-x_{j+t}^{[M]}|=O_R(F_M^{-2})$.  Since only finitely
+many continuous factors $g_\ell$ occur, their uniform continuity permits $M$
+to be chosen so that the resulting function $G_M$ satisfies
+\[
+ \|G\circ\pi_{R_M,R}-G_M\|_{L^2(\mu_{R_M})}<\varepsilon/4.
+\]
+
+Now let $E_{M,K}$ be the event that every digit in the full symmetric word
+\[
+ a_{j-R_M+1},\ldots,a_{j+R_M}
+\]
+is at most $K$.  This truncates all digits introduced by the finite-future
+replacement and also the $M$ left-padding digits needed to regard the result
+as a radius-$R_M$ monomial.  By Lemma~\ref{lem:gauss-estimates}(ii),
+stationarity, and a union bound,
+\[
+ \mu_{R_M}(E_{M,K}^c)=O_R(M/K).
+\]
+Since $G_M$ is bounded, this measure estimate gives the required $L^2$
+estimate explicitly:
+\[
+ \|G_M-G_M\ind_{E_{M,K}}\|_{L^2(\mu_{R_M})}^2
+ \le \|G_M\|_\infty^2\mu_{R_M}(E_{M,K}^c)
+ =O_{R,G}(M/K).
+\]
+Choose $K$ so large that the corresponding $L^2$ norm is less than
+$\varepsilon/4$.  For fixed $M,K$, only finitely many full digit words remain.
+For each summand $\ell$ and each such word $\widetilde w$, identity
+\eqref{eq:block-character-reduction}, applied to the central subword
+$w=(a_{j-R+1},\ldots,a_{j+R})$, gives
+\[
+ \sum_{t=-R-1}^{R}c_{\ell,t}\theta_{j+t}
+ \equiv A_{\ell,w}\theta_j+B_{\ell,w}\theta_{j-1}\pmod1.
+\]
+Thus $G_M\ind_{E_{M,K}}$ is exactly a finite linear combination of the
+monomials \eqref{eq:block-monomial} at radius $R_M=R+M$: its digit amplitude
+is supported on the finitely many words $\widetilde w$, and its central
+Fourier modes are $(r,s)=(B_{\ell,w},A_{\ell,w})$.  These modes have finite
+support because both the original torus-character list and the retained word
+list are finite.
+The radius grows with $M$ because the approximation to $x_{j+R}$ uses digits
+through $a_{j+R+M}$; the additional left coordinates in the symmetric
+radius-$R_M$ word are harmless and were truncated above.
+
+Combining the three errors proves that, for every $\varepsilon>0$, there are
+$M,K$ and a finite linear combination $P$ of monomials at radius $R+M$ such
+that
+\[
+ \|B^{(R)}\circ\pi_{R+M,R}-P\|_{L^2(\mu_{R+M})}<\varepsilon.
+\]
+Because $B^{(R)}\circ\pi_{R+M,R}$ is real-valued,
+\[
+ |B^{(R)}\circ\pi_{R+M,R}-\operatorname{Re}P|
+ \le |B^{(R)}\circ\pi_{R+M,R}-P|
+\]
+pointwise.  Adjoining the conjugate monomials shows that
+$\operatorname{Re}P$ is again a finite linear combination of monomials and is
+real-valued.  Taking a sequence of accuracies decreasing
+to zero and choosing the truncation lengths increasingly, we let $M$ range
+over that increasing sequence.  We thereby obtain real-valued $P_{R,M}$ at
+radii $R_M=R+M$ such that
 \begin{equation}\label{eq:remainder-L2-approx}
- \|B^{(R)}-P_{R,M}\|_{L^2(\mu_{R_M})}
+ \|B^{(R)}\circ\pi_{R_M,R}-P_{R,M}\|_{L^2(\mu_{R_M})}
  =:\delta_{R,M}\longrightarrow0.
 \end{equation}
-They may be taken real-valued because replacing an approximant by its real
-part does not increase its distance from the real-valued function $B^{(R)}$.
+
 For each fixed $R,M$, apply Lemma~\ref{lem:full-state} with window radius
-$R_M$ to
-$|B^{(R)}-P_{R,M}|^2$ to obtain
+$R_M$ to the bounded, $\mu_{R_M}$-almost-everywhere continuous function
+$|B^{(R)}\circ\pi_{R_M,R}-P_{R,M}|^2$ to obtain
 \begin{equation}\label{eq:actual-L2-transfer}
  \sup_{j\in\mathcal J_n}
  \E|B_j^{(R)}-P_{R,M,j}|^2
  =\delta_{R,M}^2+o_n(1).
 \end{equation}
-For fixed $R,M$, Proposition~\ref{prop:two-block} shows that the variance of
-$\sum_{j\in\mathcal J_n}(-1)^j(P_{R,M,j}-\E P_{R,M,j})$ is $o(L^2)$.
-The diagonal contributes $O(L)$; the $O(LH)$ exceptional pairs contribute
-$O(LH)=o(L^2)$; and all other pairs contribute $O(L^2\delta_n)=o(1)$, with
-$\delta_n$ as in \eqref{eq:delta-n}.  Lemma~\ref{lem:full-state} gives
+For fixed $R,M$, every $P_{R,M}$ is, by the bridge, a finite linear
+combination of the monomials \eqref{eq:block-monomial}; its radius, digit-word
+support, and Fourier support are all fixed before $n\to\infty$.  Moreover,
+its integral against $\mu_{R_M}$ is its integral against $\widehat\mu_0$ under
+the stationary window map.  Hence Proposition~\ref{prop:two-block} applies to
+every covariance term in
+$\sum_{j\in\mathcal J_n}(-1)^j(P_{R,M,j}-\E P_{R,M,j})$.  Its variance is
+$o(L^2)$: the diagonal contributes $O(L)$, the $O(LH)$ exceptional pairs
+contribute $O(LH)=o(L^2)$, and all other pairs contribute
+\[
+ O_{R,M}\!\left(L^2\bigl(\e^{-c_{\rm ld}L^{1/2}}
+                  +\e^{-c_{\rm osc}H}+\rho^{c_{\rm mix}H}\bigr)\right)
+ =o(1).
+\]
+Lemma~\ref{lem:full-state} gives
 $\sup_j|\E P_{R,M,j}-\int P_{R,M}\,d\mu_{R_M}|=o(1)$, so replacing the
 stationary means in Proposition~\ref{prop:two-block} by the actual means adds
 only $o(L^2)$ to the covariance sum.
@@ -1320,13 +1506,25 @@ Lemma~\ref{lem:gauss-estimates}(ii) therefore gives
 \begin{equation}\label{eq:Phi-tail}
  \sup_{j,n}\Pp(|\Phi(x_j,u_j)|>t)\le\frac{C}{1+t}.
 \end{equation}
-On the event $|\tau_n-m_n|\le CH$, the indices omitted in
-\eqref{eq:end-terms} lie in a deterministic union of $O(H)$ positions.
-The probability that one of their costs exceeds $\varepsilon L$ is
-$O(H/L)=o(1)$.  The expected sum of the remaining costs, truncated at
-$\varepsilon L$, is $O(H\log L)$ by integration of
-\eqref{eq:Phi-tail}; divided by $L$ this tends to zero.  Finally let $C$ grow
-and use \eqref{eq:tau}.
+Let $I_n=\{0,\ldots,\tau_n-1\}$.  On the event
+$|\tau_n-m_n|\le CH$, the symmetric difference
+$I_n\mathbin{\triangle}\mathcal J_n$ is contained in the deterministic union
+\[
+ \{0\le j<200H+1\}
+ \ \cup\ 
+ \{m_n-(C+200)H-2\le j\le m_n+CH+2\},
+\]
+which has $O_C(H)$ positions.  Moreover,
+\[
+ \left|S_n(\alpha)-\sum_{j\in\mathcal J_n}(-1)^j\Phi(x_j,u_j)\right|
+ \le\sum_{j\in I_n\mathbin{\triangle}\mathcal J_n}|\Phi(x_j,u_j)|,
+\]
+so the same tail argument applies in both directions of the symmetric
+difference.  The probability that one of these costs exceeds
+$\varepsilon L$ is $O_C(H/L)=o(1)$.  By integration of
+\eqref{eq:Phi-tail}, the expected sum of the costs truncated at
+$\varepsilon L$ is $O_C(H\log L)$; Markov's inequality after division by
+$L$ makes this $o(1)$.  Finally let $C$ grow and use \eqref{eq:tau}.
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:main}]
@@ -1358,6 +1556,28 @@ $c_n\to0$.
 The Cauchy distribution is continuous; therefore convergence in distribution
 is equivalent to the asserted convergence of distribution functions.
 \end{proof}
+
+\section*{Acknowledgments}
+
+Ibby Mian and Shayaan Siddique of Millennium Research performed an independent
+pre-collaboration audit of an earlier version of this manuscript.  Their audit
+was completed and published on 1 August 2026, before any collaboration
+existed.  After its publication, Mian, Siddique, and the author agreed to
+collaborate separately on a Lean~4 formalization of this proof as a distinct
+companion project.  Any
+comments from Mian or Siddique after that date are collaborator feedback, not
+an additional independent referee opinion.  Mian and Siddique are not authors
+of this mathematical manuscript.
+
+\section*{AI-use disclosure}
+
+The author selected the problem and directed the iterative research and
+prompting process.  The initial proposed answer, the proof architecture, and
+the substantive mathematical steps were generated by OpenAI GPT-5.6 Sol Pro
+and developed through iterative, human-directed AI collaboration.  OpenAI
+Codex, under the author's direction, was used to assemble, edit, compile, and
+perform automated consistency checks on this manuscript.  The author takes
+responsibility for the submitted manuscript.
 
 \begin{thebibliography}{99}
 
@@ -1398,9 +1618,14 @@ O.~Kallenberg,
 Probability Theory and Stochastic Modelling 77,
 Springer, Cham, 2017.
 
+\bibitem{Vardi93}
+I.~Vardi,
+\emph{Dedekind sums have a limiting distribution},
+Int. Math. Res. Not. 1993 (1993), no.~1, 1--12.
+
 \bibitem{Zygmund59}
 A.~Zygmund,
-\emph{Trigonometric Series}, 2nd ed.,
+\emph{Trigonometric Series}, 2nd ed., Vols.~I--II,
 Cambridge University Press, Cambridge, 1959.
 
 \end{thebibliography}
