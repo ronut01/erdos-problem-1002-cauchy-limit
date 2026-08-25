@@ -2,13 +2,14 @@
 
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm}
+\usepackage{amsaddr}
 \usepackage[hidelinks]{hyperref}
 \emergencystretch=1em
 
 \hypersetup{
   pdftitle={A Cauchy Limit for a Sawtooth Sum},
   pdfauthor={Sangyoon Kwon},
-  pdfsubject={A solution to Erdos Problem 1002},
+  pdfsubject={Erdos Problem 1002; continued fractions and Cauchy limits},
   pdfkeywords={continued fractions, discrepancy sums, Cauchy law,
     stable limits, Gauss map, Erdos Problem 1002}
 }
@@ -37,12 +38,12 @@
 
 \title{A Cauchy Limit for a Sawtooth Sum}
 \author{Sangyoon Kwon}
-\address{Independent researcher}
+\address{Department of Computer Science, Hanyang University}
 \email{is011061@gmail.com}
-\date{Version 9, August 11, 2026}
-\subjclass[2020]{11K38, 11A55, 37A50, 60F05}
+\date{August 23, 2026}
+\subjclass[2020]{Primary 11K38; Secondary 11A55, 37A50, 60F05}
 \keywords{continued fractions, discrepancy sums, Cauchy law, stable limits,
-Gauss map}
+Gauss map, Erd\H{o}s Problem 1002}
 
 \begin{document}
 \begin{abstract}
@@ -963,8 +964,11 @@ tightness.  Moreover, for $0\le u\le1$,
  =\sup_n\sum_{r\ge0}\frac{u^r}{r!}\E(N_n(K))_r
  \le \exp(C_Ku).
 \]
-Thus the local counts have uniformly bounded exponential moments.  On
-finitely many disjoint compact continuity sets, the preceding calculation
+Thus the local counts have uniformly bounded exponential moments.
+Passing from the $C_c^1$ test functions above to indicators is justified by
+inner and outer $C_c^1$ approximation on compact $\Lambda$-continuity sets;
+the truncation windows used below are finite unions of intervals.
+On finitely many disjoint compact continuity sets, the preceding calculation
 gives convergence of all mixed factorial moments to those of independent
 Poisson variables, and the exponential bound makes those moments
 distribution determining.  Local tightness and an exhaustion by compact
