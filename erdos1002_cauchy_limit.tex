@@ -40,7 +40,7 @@
 \author{Sangyoon Kwon}
 \address{Department of Computer Science, Hanyang University}
 \email{is011061@gmail.com}
-\date{August 23, 2026}
+\date{August 25, 2026}
 \subjclass[2020]{Primary 11K38; Secondary 11A55, 37A50, 60F05}
 \keywords{continued fractions, discrepancy sums, Cauchy law, stable limits,
 Gauss map, Erd\H{o}s Problem 1002}
@@ -97,6 +97,9 @@ Equivalently, for every $c\in\R$,
 
 Here $\operatorname{Cauchy}(0,\gamma)$ denotes the centered Cauchy law with
 characteristic function $t\mapsto\exp(-\gamma|t|)$.
+
+A Lean~4 formalization of this proof has been completed and independently
+verified.
 
 The proof has four parts.  First an exact reciprocity identity expresses
 $S_n$ as an alternating sum along the Gauss map.  Second, continued-fraction
@@ -1675,7 +1678,7 @@ is equivalent to the asserted convergence of distribution functions.
 
 \section*{Acknowledgments}
 
-The author thanks Ibby Mian and Shayaan Siddique of Millennium Research for
+The author thanks Ibrahim Mian and Shayaan Siddique of Millennium Research for
 their detailed mathematical comments in an independent pre-collaboration audit
 of an earlier version, published on 1 August 2026 \cite{MianSiddique26}, and
 during the subsequent companion formalization.  Their comments led to
@@ -1683,7 +1686,9 @@ corrections and clarifications in Sections~3, 4, and~6.  Only after publication
 of the audit did Mian, Siddique, and the author agree to collaborate separately
 on a Lean~4 formalization of this proof.  Feedback arising from that distinct
 companion project is collaborator feedback, not an additional independent
-referee opinion; Mian and Siddique are not authors of this manuscript.
+referee opinion; Mian and Siddique are not authors of this manuscript.  The
+completed formalization and verification materials are available in the
+companion repository \cite{KwonMianSiddiqueLean26}.
 
 \section*{AI-use disclosure}
 
@@ -1738,6 +1743,12 @@ Classics in Mathematics, Springer, Berlin, 1995.
 H. Kesten,
 \emph{Uniform distribution mod $1$},
 Ann. of Math. (2) 71 (1960), 445--471.
+
+\bibitem{KwonMianSiddiqueLean26}
+S.~Kwon, I.~Mian, and S.~Siddique,
+\emph{Lean~4 formalization of A Cauchy Limit for a Sawtooth Sum},
+GitHub repository, 2026,
+\url{https://github.com/ronut01/erdos1002-lean}.
 
 \bibitem{MianSiddique26}
 I.~Mian and S.~Siddique,
